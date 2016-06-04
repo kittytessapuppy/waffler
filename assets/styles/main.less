@@ -1,0 +1,172 @@
+@import "_variables.less";
+
+// mixins
+.Row ( @width : @default_width; @padding: @default_padding; @margin : @default_row-margin ) {
+  max-width: @width;
+  width: 100%;
+  margin: @margin;
+  padding: @padding;
+  &:before,
+  &:after {
+    content: "";
+    display: table;
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+.Cols ( @colspan : @default_colspan; @total_cols : @default_total-cols; @padding: @default_padding; @gutter: @default_gutter; @edge: false; @margin-top : @default_margin-top; @margin-bottom : @default_margin-bottom; ) {
+  @total_gutter: (@total_cols - 1) * @gutter;
+  @spanned_gutters: (@colspan - 1) * @gutter;
+  width: ( @colspan * ((100 - @total_gutter) / @total_cols) ) + @spanned_gutters + 0%;
+  float: left;
+  padding: @padding;
+  .IfEdge (@edge; @gutter; @margin-top; @margin-bottom; );
+}
+
+.IfEdge ( @edge; @gutter; @margin-top; @margin-bottom; ) when (@edge = false) {
+  margin: @margin-top @gutter + 0% @margin-bottom 0;
+}
+
+.IfEdge ( @edge; @gutter; @margin-top; @margin-bottom; ) when (@edge = true) {
+  margin: @margin-top 0 @margin-bottom 0;
+}
+
+// Styling
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: @pac-background-color;
+  color: @pac-text-color;
+  margin: 0;
+}
+
+h1 {
+  color: @pac-color-purple;
+  font-size: 32 * @toEms;
+}
+
+nav {
+  .Row ( @padding: 10 * @toRems; @margin: 0 auto; );
+  background-color: darken(@pac-background-color, 10%);
+  position: fixed;
+  top: 0 * @toRems;
+}
+
+navbar.navbar-header {
+  color: @pac-color-orange;
+  font-size: 22 * @toEms;
+  font-weight: bolder;
+  font-style: oblique;
+  display: inline;
+  float: left;
+  line-height: 8 * @toEms;
+}
+
+navbar.navbar-nav {
+  color: @pac-color-orange;
+  display: inline;
+  float: left;
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 15 * @toRems;
+    text-align: center;
+  }
+  li {
+    display: inline;
+    padding: 15 * @toRems;
+  }
+  a {
+    font-size: 22 * @toEms;
+    color: @pac-color-alt-red;
+    &:link {
+      text-decoration: none;
+    }
+    &:visited {
+      font-style: italic;
+      color: darken(@pac-color-alt-red, 10%);
+    }
+    &:hover {
+      color: lighten(@pac-color-alt-red, 10%);
+      text-decoration: underline;
+    }
+    &:active {
+      color: darken(@pac-color-alt-red, 10%);
+      text-decoration: underline;
+    }
+  }
+}
+
+header,
+footer {
+  .Row ( @padding: 20 * @toRems; @margin: 60 * @toRems auto; );
+  background-color: darken(@pac-background-color, .5%);
+  min-height: 100 * @toRems;
+  h1 {
+    color: @pac-color-blue;
+  }
+}
+
+footer .links {
+  .Cols ( @colspan: 1; @total_cols: 2; @padding: 0 20 * @toRems 20 * @toRems 0; @gutter: 1; @edge: true; );
+  ul {
+    padding: 0;
+  }
+  li {
+    line-height: 1.5em;
+    list-style: none;
+    text-align: left;
+    margin-left: 400 * @toRems;
+  }
+  a {
+    color: @pac-color-orange;
+    font-size: 22 * @toEms;
+  }
+}
+
+p.credits {
+  .Cols ( @colspan: 1; @total_cols: 1; @padding: 0 20 * @toRems 20 * @toRems 0; @gutter: 2; @margin-top: 30 * @toRems; );
+  padding: 0 480 * @toRems 45 * @toRems 480 * @toRems;
+  text-align: center;
+}
+
+p.disclaimer {
+  .Cols ( @colspan: 1; @total_cols: 2; @padding: 0 20 * @toRems 20 * @toRems 0; @gutter: 1; );
+  text-align: center;
+  padding: 0 150 * @toRems 0 150 * @toRems;
+}
+
+main {
+  .Row;
+}
+
+section {
+  .Cols ( @colspan: 4; @padding: 10 * @toRems 20 * @toRems; @gutter: 1;);
+  background-color: @pac-background-color;
+  h1 {
+    font-size: 28 * @toEms;
+  }
+}
+
+article {
+  .Cols( @colspan: 1; @total_cols: 3; @padding: 0 20 * @toRems 20 * @toRems 20 * @toRems; @gutter: 2; @margin-bottom: 30 * @toRems; );
+  background-color: @pac-color-darker;
+  &:nth-of-type(3n) {
+    margin-right: 0
+  }
+  h1 {
+    font-size: 26 * @toEms;
+  }
+}
+
+hr.radial {
+  border: 0;
+  width: 90%;
+  height: 1px;
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(248, 248, 240, 75), rgba(0, 0, 0, 0));
+}
